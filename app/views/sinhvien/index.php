@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- <!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách sinh viên</title>
 </head>
-<body>
+<<body> -->
     <!-- <?php
     session_start();
     if(isset($_SESSION['username'])){
@@ -33,6 +32,7 @@
             background-color: #f2f2f2;
         }
     </style>
+        <a href="?url=sinhvien/create" class="btn btn-primary mb-3">Tạo mới</a>
     <table>
         <thead>
             <tr>
@@ -57,5 +57,5 @@
             <?php endif; ?>
         </tbody>
     </table>
-</body>
-</html> 
+<!-- </body>
+</html>  -->
