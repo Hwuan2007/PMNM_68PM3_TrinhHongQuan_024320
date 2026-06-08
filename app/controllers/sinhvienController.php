@@ -1,9 +1,11 @@
 <?php
-class SinhvienController{
+require_once '../app/core/Controller.php';
+class SinhvienController extends Controller {
     public function index(){
-        echo "Hello from SinhvienController - index method!";
-        // echo "Hello from SinhvienController - index method!";
-        require_once '../app/views/sinhvien/index.php';
+        // require_once '../app/views/sinhvien/index.php';
+        $sinhvienModel = $this->model('sinhvienModel');
+        $sinhvien = $sinhvienModel -> getAllSinhvien();
+        $this -> view('sinhvien/index', ['sinhvien' => $sinhvien]);
     }
 
     public function show($id){
