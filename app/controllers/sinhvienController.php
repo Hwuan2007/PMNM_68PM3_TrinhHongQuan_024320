@@ -5,7 +5,13 @@ class SinhvienController extends Controller {
         // require_once '../app/views/sinhvien/index.php';
         $sinhvienModel = $this->model('sinhvienModel');
         $sinhvien = $sinhvienModel -> getAllSinhvien();
-        $this -> view('sinhvien/index', ['sinhvien' => $sinhvien]);
+         // $this -> view('sinhvien/index', ['sinhvien' => $sinhvien]);
+        $this -> view('layout/masterLayout', [
+            'title' => 'Danh sách sinh viên',
+            // 'viewName' => 'sinhvien/index',
+            'nameView' => 'sinhvien/index',
+            'sinhvien' => $sinhvien
+        ]);
     }
 
     public function show($id){
@@ -15,7 +21,19 @@ class SinhvienController extends Controller {
 
     public function create(){
         // echo "Hello from SinhvienController - create method!";
-        require_once '../app/views/sinhvien/create.php';
+        $this -> view('layout/masterLayout', [
+            'title' => 'Tạo sinh viên mới',
+            'nameView' => 'sinhvien/create'
+        ]);
     }  
+
+    public function store(){
+        $sinhvienModel = $this -> model('sinhvienModel');
+        $MSSV = $_POST['MSSV'] ?? '';
+        $HoTen = $_POST['HoTen'] ?? '';
+        $GioiTinh = $_POST['GioiTinh'] ?? '';
+        $sinhvienModel -> createSinhvien($MSSV, $HoTen, $GioiTinh);
+        header('Location: ?url=sinhvien/index');
+    }
 }
 ?>
