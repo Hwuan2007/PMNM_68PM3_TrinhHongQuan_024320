@@ -70,7 +70,15 @@ class SinhvienController extends Controller
         header('Location: ?url=sinhvien/index');
         exit();
     }
-
+    public function delete($id)
+    {
+        $sinhvienModel = $this->model('sinhvienModel');
+        if ($id) {
+            $sinhvienModel->deleteSinhvien($id);
+        }
+        header('Location: ?url=sinhvien/index');
+        exit();
+    }
     public function create()
     {
         // echo "Hello from SinhvienController - create method!";
