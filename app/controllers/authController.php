@@ -17,9 +17,6 @@ class AuthController extends Controller
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
         if ($username === '024320@st.huce.edu.vn' && $password === '024320') {
-            // echo "Login successful!";
-            //lưu session và cookie nếu tick remember
-            session_start();
             $_SESSION['username'] = $username;
             if (isset($_POST['remember'])) {
                 setcookie('username', $username, time() + (86400 * 30), '/'); // 86400 = 1 day
@@ -38,7 +35,6 @@ class AuthController extends Controller
     public function logout()
     {
         // echo "Hello from AuthController - logout method!";
-        session_start();
         session_destroy();
         setcookie('username', '', time() - 3600, '/'); // xóa cookie
         setcookie('password', '', time() - 3600, '/'); // xóa cookie

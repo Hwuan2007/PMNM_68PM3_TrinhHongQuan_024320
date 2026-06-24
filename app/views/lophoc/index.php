@@ -3,16 +3,34 @@
         <h2 class="h4">Danh sách lớp học</h2>
         <a href="?url=lophoc/create" class="btn btn-primary">Tạo mới</a>
     </div>
-    <form class="row g-2 mb-3" method="GET" action="?url=lophoc/index">
-        <input type="hidden" name="url" value="lophoc/index">
-        <div class="col-auto">
-            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên lớp..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>">
+    <?php
+    $totalRows = isset($total) ? (int)$total : 0;
+    $pageSize = isset($pageSize) ? (int)$pageSize : 10;
+    $pageIndex = isset($pageIndex) ? (int)$pageIndex : 1;
+    $start = $totalRows > 0 ? (($pageIndex - 1) * $pageSize) + 1 : 0;
+    $end = min($totalRows, $pageIndex * $pageSize);
+    ?>
+    <div class="row mb-3">
+        <div class="col-md-6 text-muted">Hiển thị <?php echo $start; ?> - <?php echo $end; ?> trên tổng <?php echo $totalRows; ?> bản ghi</div>
+        <div class="col-md-6">
+            <form class="row g-2 justify-content-end" method="GET" action="?url=lophoc/index">
+                <input type="hidden" name="url" value="lophoc/index">
+                <div class="col-auto">
+                    <select name="pageSize" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <?php foreach ([5, 10, 20, 50, 100] as $ps): ?>
+                            <option value="<?php echo $ps; ?>" <?php echo $ps == $pageSize ? 'selected' : ''; ?>><?php echo $ps; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group input-group-sm">
+                        <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên lớp..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>">
+                        <button class="btn btn-outline-primary" type="submit">Tìm</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
-        </div>
-    </form>
-
+    </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
