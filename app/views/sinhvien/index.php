@@ -20,7 +20,7 @@ if (isset($_SESSION['username'])) {
     <form class="row g-2 mb-3" method="GET" action="?url=sinhvien/index">
         <input type="hidden" name="url" value="sinhvien/index">
         <div class="col-auto">
-            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo họ tên..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>">
+            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo MSSV, họ tên hoặc mã lớp..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>">
         </div>
         <div class="col-auto">
             <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>

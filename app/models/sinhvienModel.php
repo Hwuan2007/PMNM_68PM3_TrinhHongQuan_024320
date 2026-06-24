@@ -58,7 +58,7 @@ class sinhvienModel
 
     public function getPagingSinhVien($limit, $offset, $search = '')
     {
-        $query = "SELECT * FROM sinhvien WHERE hoten LIKE :search LIMIT :limit OFFSET :offset";
+        $query = "SELECT * FROM sinhvien WHERE (hoten LIKE :search OR mssv LIKE :search OR malop LIKE :search) LIMIT :limit OFFSET :offset";
         $stmt = $this->conn->prepare($query);
         $searchParam = '%' . $search . '%';
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -66,7 +66,7 @@ class sinhvienModel
         $stmt->bindParam(':search', $searchParam, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $totalQuery = "SELECT COUNT(*) as total FROM sinhvien WHERE hoten LIKE :search";
+        $totalQuery = "SELECT COUNT(*) as total FROM sinhvien WHERE (hoten LIKE :search OR mssv LIKE :search OR malop LIKE :search)";
         $totalStmt = $this->conn->prepare($totalQuery);
         $totalStmt->bindParam(':search', $searchParam, PDO::PARAM_STR);
         $totalStmt->execute();
