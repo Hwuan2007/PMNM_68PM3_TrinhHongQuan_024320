@@ -56,9 +56,16 @@ class sinhvienModel
         return $stmt->execute();
     }
 
-    public function getPagingSinhVien($limit, $offset, $search = '')
+    public function getPagingSinhVien($limit, $offset, $search = '', $orderBy = '', $orderDir = 'ASC')
     {
-        $query = "SELECT * FROM sinhvien WHERE (hoten LIKE :search OR mssv LIKE :search OR malop LIKE :search) LIMIT :limit OFFSET :offset";
+        $allowed = ['mssv', 'hoten', 'malop', 'id'];
+        $orderBySql = 'id';
+        if (in_array(strtolower($orderBy), $allowed)) {
+            $orderBySql = strtolower($orderBy);
+        }
+        $orderDir = strtoupper($orderDir) === 'DESC' ? 'DESC' : 'ASC';
+
+        $query = "SELECT * FROM sinhvien WHERE (hoten LIKE :search OR mssv LIKE :search OR malop LIKE :search) ORDER BY " . $orderBySql . " " . $orderDir . " LIMIT :limit OFFSET :offset";
         $stmt = $this->conn->prepare($query);
         $searchParam = '%' . $search . '%';
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);

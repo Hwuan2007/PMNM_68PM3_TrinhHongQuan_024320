@@ -17,7 +17,10 @@ class SinhvienController extends Controller
 
         $sinhvienModel = $this->model('sinhvienModel');
         $offset = ($pageIndex - 1) * $pageSize;
-        $result = $sinhvienModel->getPagingSinhVien($pageSize, $offset, $search);
+        // sorting
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+        $dir = isset($_GET['dir']) ? strtoupper($_GET['dir']) : 'ASC';
+        $result = $sinhvienModel->getPagingSinhVien($pageSize, $offset, $search, $sort, $dir);
         $sinhvien = $result['data'];
         $total = $result['total'];
 
@@ -28,7 +31,9 @@ class SinhvienController extends Controller
             'total' => $total,
             'pageIndex' => $pageIndex,
             'pageSize' => $pageSize,
-            'search' => $search
+            'search' => $search,
+            'sort' => $sort,
+            'dir' => $dir
         ]);
     }
 

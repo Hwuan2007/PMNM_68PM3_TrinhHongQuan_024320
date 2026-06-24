@@ -32,9 +32,29 @@ if (isset($_SESSION['username'])) {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>MSSV</th>
-                    <th>Lớp</th>
-                    <th>Họ tên</th>
+                    <?php
+                    $currSort = isset($sort) ? $sort : '';
+                    $currDir = isset($dir) ? strtoupper($dir) : 'ASC';
+                    function sortLink($col, $label, $currSort, $currDir)
+                    {
+                        $dir = 'ASC';
+                        $arrow = '';
+                        if ($currSort === $col) {
+                            if ($currDir === 'ASC') {
+                                $dir = 'DESC';
+                                $arrow = ' ▲';
+                            } else {
+                                $dir = 'ASC';
+                                $arrow = ' ▼';
+                            }
+                        }
+                        $qs = '?url=sinhvien/index&search=' . urlencode(isset($search) ? $search : '') . '&sort=' . urlencode($col) . '&dir=' . $dir;
+                        return '<a href="' . $qs . '">' . htmlspecialchars($label) . $arrow . '</a>';
+                    }
+                    ?>
+                    <th><?php echo sortLink('mssv', 'MSSV', $currSort, $currDir); ?></th>
+                    <th>Mã lớp</th>
+                    <th><?php echo sortLink('hoten', 'Họ tên', $currSort, $currDir); ?></th>
                     <th>Giới tính</th>
                     <th>Hành động</th>
                 </tr>
@@ -48,12 +68,6 @@ if (isset($_SESSION['username'])) {
                             <td><?php echo htmlspecialchars($sv['malop'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars($sv['hoten'] ?? $sv['HoTen'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars($sv['gioitinh'] ?? $sv['GioiTinh'] ?? ''); ?></td>
-                            <td>
-                                <a href="?url=sinhvien/edit/<?php echo urlencode($sv['id']); ?>" class="btn btn-sm btn-secondary me-1">Sửa</a>
-                                <form action="?url=sinhvien/delete/<?php echo urlencode($sv['id']); ?>" method="POST" style="display:inline" onsubmit="return confirm('Bạn có chắc muốn xóa không?');">
-                                    <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
-                                </form>
-                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -73,9 +87,11 @@ if (isset($_SESSION['username'])) {
             $totalPages = max(1, (int)ceil($totalRows / $pageSize));
             $current = isset($pageIndex) ? (int)$pageIndex : 1;
             $searchParam = isset($search) ? $search : '';
+            $sortParam = isset($sort) ? $sort : '';
+            $dirParam = isset($dir) ? $dir : '';
             for ($i = 1; $i <= $totalPages; $i++) {
                 $active = $i === $current ? 'active' : '';
-                $link = '?url=sinhvien/index&pageIndex=' . $i . '&pageSize=' . $pageSize . '&search=' . urlencode($searchParam);
+                $link = '?url=sinhvien/index&pageIndex=' . $i . '&pageSize=' . $pageSize . '&search=' . urlencode($searchParam) . '&sort=' . urlencode($sortParam) . '&dir=' . urlencode($dirParam);
                 echo '<li class="page-item ' . $active . '"><a class="page-link" href="' . $link . '">' . $i . '</a></li>';
             }
             ?>
