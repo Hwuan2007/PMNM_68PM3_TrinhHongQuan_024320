@@ -51,10 +51,13 @@ class SinhvienController extends Controller
             header('Location: ?url=sinhvien/index');
             exit();
         }
+        $lophocModel = $this->model('lophocModel');
+        $lophocList = $lophocModel->getAllLopHoc();
         $this->view('layout/masterLayout', [
             'title' => 'Chỉnh sửa sinh viên',
             'nameView' => 'sinhvien/edit',
-            'sinhvien' => $sv
+            'sinhvien' => $sv,
+            'lophocList' => $lophocList
         ]);
     }
     public function update()
@@ -64,8 +67,9 @@ class SinhvienController extends Controller
         $MSSV = $_POST['MSSV'] ?? '';
         $HoTen = $_POST['HoTen'] ?? '';
         $GioiTinh = $_POST['GioiTinh'] ?? '';
+        $MaLop = $_POST['malop'] ?? '';
         if ($id) {
-            $sinhvienModel->updateSinhvien($id, $MSSV, $HoTen, $GioiTinh);
+            $sinhvienModel->updateSinhvien($id, $MSSV, $HoTen, $GioiTinh, $MaLop);
         }
         header('Location: ?url=sinhvien/index');
         exit();
@@ -81,10 +85,12 @@ class SinhvienController extends Controller
     }
     public function create()
     {
-        // echo "Hello from SinhvienController - create method!";
+        $lophocModel = $this->model('lophocModel');
+        $lophocList = $lophocModel->getAllLopHoc();
         $this->view('layout/masterLayout', [
             'title' => 'Tạo sinh viên mới',
-            'nameView' => 'sinhvien/create'
+            'nameView' => 'sinhvien/create',
+            'lophocList' => $lophocList
         ]);
     }
 
@@ -94,7 +100,8 @@ class SinhvienController extends Controller
         $MSSV = $_POST['MSSV'] ?? '';
         $HoTen = $_POST['HoTen'] ?? '';
         $GioiTinh = $_POST['GioiTinh'] ?? '';
-        $sinhvienModel->createSinhvien($MSSV, $HoTen, $GioiTinh);
+        $MaLop = $_POST['malop'] ?? '';
+        $sinhvienModel->createSinhvien($MSSV, $HoTen, $GioiTinh, $MaLop);
         header('Location: ?url=sinhvien/index');
     }
 }

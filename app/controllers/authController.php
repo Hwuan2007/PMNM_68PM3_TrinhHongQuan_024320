@@ -1,10 +1,14 @@
 <?php
-class AuthController
+require_once '../app/core/Controller.php';
+class AuthController extends Controller
 {
+
     public function index()
     {
-        // echo "Hello from AuthController - login method!";
-        require_once '../app/views/auth/login.php';
+        $this->view('layout/masterLayout', [
+            'title' => 'Đăng nhập',
+            'nameView' => 'auth/login'
+        ]);
     }
 
     public function doLogin()
@@ -25,7 +29,7 @@ class AuthController
 
             exit();
         } else {
-            // echo "Invalid credentials!";
+            // redirect back to login (index will render via masterLayout)
             header('Location: /PMNM_68PM3_TrinhHongQuan_024320/public/?url=auth/login');
             exit();
         }
